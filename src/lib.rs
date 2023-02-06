@@ -55,19 +55,19 @@ struct WarningResponse {
 #[derive(Debug)]
 #[allow(unused)]
 pub struct Warning {
-    state: String,
-    category: u8,
-    level: u8,
-    start: chrono::DateTime<Utc>,
-    end: Option<chrono::DateTime<Utc>>,
-    region_name: String,
-    event: String,
-    headline: String,
-    instruction: String,
-    description: String,
-    state_short: String,
-    altitude_start: Option<i64>,
-    altitude_end: Option<i64>,
+    pub state: String,
+    pub category: u8,
+    pub level: u8,
+    pub start: chrono::DateTime<Utc>,
+    pub end: Option<chrono::DateTime<Utc>>,
+    pub region_name: String,
+    pub event: String,
+    pub headline: String,
+    pub instruction: String,
+    pub description: String,
+    pub state_short: String,
+    pub altitude_start: Option<i64>,
+    pub altitude_end: Option<i64>,
 }
 
 impl From<WarningRaw> for Warning {
@@ -103,9 +103,9 @@ impl From<WarningRaw> for Warning {
 #[derive(Debug)]
 #[allow(unused)]
 pub struct WarningList {
-    time: chrono::DateTime<Utc>,
-    warnings: Vec<Warning>,
-    copyright: String,
+    pub time: chrono::DateTime<Utc>,
+    pub warnings: Vec<Warning>,
+    pub copyright: String,
 }
 
 impl WarningList {
