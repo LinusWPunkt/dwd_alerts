@@ -167,7 +167,11 @@ mod tests {
 
     #[test]
     fn returns_at_least_1_warning() {
-        assert!(WarningList::get_new().unwrap().warnings.len() >= 1);
+        let warnings = WarningList::get_new().unwrap();
+        assert!(warnings.warnings.len() >= 1);
+        for warning in warnings.warnings {
+            dbg!(warning);
+        }
     }
 
     #[test]
