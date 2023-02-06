@@ -156,6 +156,16 @@ impl TryFrom<WarningResponse> for WarningList {
         });
     }
 }
+
+impl IntoIterator for WarningList {
+    type Item = Warning;
+    type IntoIter = std::vec::IntoIter<Self::Item>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.warnings.into_iter()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -169,8 +179,13 @@ mod tests {
     fn returns_at_least_1_warning() {
         let warnings = WarningList::get_new().unwrap();
         assert!(warnings.warnings.len() >= 1);
-        for warning in warnings.warnings {
-            dbg!(warning);
+    }
+
+    #[test]
+    fn warninglist_works_as_iterator() {
+        let warning_list = WarningList::get_new().unwrap();
+        for warning in warning_list {
+            println!("{}", warning.headline);
         }
     }
 
