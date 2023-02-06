@@ -133,7 +133,10 @@ impl WarningList {
             None => return Err(Error::ResponseProcessingError),
         };
         let warnings = serde_json::from_str::<WarningResponse>(&data)?;
-        Ok(WarningList::try_from(warnings)?)
+        let mut warninglist = WarningList::try_from(warnings)?;
+        warninglist.warnings.sort_by_key(|f| f.start);
+
+        return Ok(warninglist);
     }
 }
 
