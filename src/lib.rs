@@ -1,4 +1,4 @@
-use chrono::Utc;
+pub use chrono::{DateTime, NaiveDateTime, Utc};
 use reqwest::blocking;
 use serde::Deserialize;
 
@@ -68,6 +68,19 @@ pub struct Warning {
     pub state_short: String,
     pub altitude_start: Option<i64>,
     pub altitude_end: Option<i64>,
+}
+
+impl Warning {
+    pub fn is_current(&self) -> bool {
+        let endtime = if let Some(i) = self.end {
+            i
+        } else {
+            return false;
+        };
+        let now = Utc::now();
+
+        return now < endtime;
+    }
 }
 
 impl From<WarningRaw> for Warning {
