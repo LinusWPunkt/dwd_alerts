@@ -1,3 +1,7 @@
+//! This client provides a handy wrapper around the dwd weather alerts api.
+//! Get a list of warnings with `WarningList::get_new()`
+
+#[doc(hidden)]
 pub use chrono::{DateTime, NaiveDateTime, Utc};
 use reqwest::blocking;
 use serde::Deserialize;
@@ -54,6 +58,7 @@ struct WarningResponse {
 }
 #[derive(Debug)]
 #[allow(unused)]
+/// Represents an individual warning.
 pub struct Warning {
     pub state: String,
     pub category: u8,
@@ -69,13 +74,13 @@ pub struct Warning {
     pub altitude_start: Option<i64>,
     pub altitude_end: Option<i64>,
 }
-
+/// Returns false if the end time of the warning is earlier than the current moment or there is no specified end time.
 impl Warning {
     pub fn is_current(&self) -> bool {
         let endtime = if let Some(i) = self.end {
             i
         } else {
-            return false;
+            return true;
         };
         let now = Utc::now();
 
@@ -115,6 +120,7 @@ impl From<WarningRaw> for Warning {
 
 #[derive(Debug)]
 #[allow(unused)]
+/// Container that contains a list of warnings, the time at which they were received and a copyright string
 pub struct WarningList {
     pub time: chrono::DateTime<Utc>,
     pub warnings: Vec<Warning>,
@@ -122,6 +128,21 @@ pub struct WarningList {
 }
 
 impl WarningList {
+    /// Queries a new warning from the dwd.
+    ///
+    /// # Errors
+    /// Returns `Error::RequestResponseError` if the request fails, which then contains the underlying reqwest error.
+    ///
+    /// Returns `Error::ResponseProcessingError` if the returned data dose not match the usual pre- and suffixes.
+    ///
+    /// Returns `Error::DeserializationError` if the deserialization failed, containing the underlying serde error.
+    ///
+    /// Returns `Error::DateParsingError` if the date could not be parsed by chrono.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the start or end field contain out of bounds integers that can not be translated into a valid time.
+    ///
     pub fn get_new() -> Result<WarningList, Error> {
         let raw_response = blocking::get(API_URL)?.text()?;
         let data = match raw_response.strip_prefix("warnWetter.loadWarnings(") {
