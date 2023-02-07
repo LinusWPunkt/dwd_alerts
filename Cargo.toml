@@ -3,6 +3,10 @@ name = "dwd_alerts"
 version = "0.1.0"
 edition = "2021"
 license = "Apache"
+license-file= "LICENSE"
+authors = ["Linus Warecka"]
+description = "A wrapper around the dwd alerts api"
+repository = "https://github.com/LinusWPunkt/dwd_alerts"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
