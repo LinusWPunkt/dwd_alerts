@@ -2,8 +2,7 @@
 name = "dwd_alerts"
 version = "0.1.0"
 edition = "2021"
-license = "Apache"
-license-file= "LICENSE"
+license = "Apache 2.0"
 authors = ["Linus Warecka"]
 description = "A wrapper around the dwd alerts api"
 repository = "https://github.com/LinusWPunkt/dwd_alerts"
@@ -14,6 +13,9 @@ repository = "https://github.com/LinusWPunkt/dwd_alerts"
 name = "dwd_alerts"
 path = "src/lib.rs"
 
+[[example]]
+name = "print_all_warnings"
+crate-type = ["bin"]
 
 
 
